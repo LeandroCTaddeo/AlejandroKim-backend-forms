@@ -8,4 +8,6 @@ module.exports = {
   DB_HOST: process.env.DB_HOST || "localhost",
   DB_PORT: process.env.DB_PORT || 5432,
   CLIENT_URL: process.env.CLIENT_URL || "http://localhost:5173",
+  NOTION_TOKEN: process.env.NOTION_TOKEN,
+  NOTION_DATABASE_ID: process.env.NOTION_DATABASE_ID,
 };
