@@ -1,21 +1,21 @@
 const validateSubmission = (req, res, next) => {
   const {
-    nombreCompleto,
+    nombre,
     edad,
-    barrioComuna,
-    profesionActividad,
+    barrio,
+    profesion,
+    contacto_info,
     contacto,
-    contactoFuturo,
   } = req.body;
 
-  if (!nombreCompleto || nombreCompleto.trim() === "") {
+  if (!nombre || nombre.trim() === "") {
     return res.status(400).json({
       ok: false,
       message: "El nombre completo es obligatorio",
     });
   }
 
-  if (!contacto || contacto.trim() === "") {
+  if (!contacto_info || contacto_info.trim() === "") {
     return res.status(400).json({
       ok: false,
       message: "El contacto es obligatorio",
@@ -34,8 +34,9 @@ const validateSubmission = (req, res, next) => {
     });
   }
 
-  const opcionesValidas = ["si", "no", "prefiero pensarlo"];
-  if (!opcionesValidas.includes(contactoFuturo)) {
+  const opcionesValidas = ["si", "no", "pensar", "prefiero pensarlo"];
+
+  if (!opcionesValidas.includes(contacto)) {
     return res.status(400).json({
       ok: false,
       message: "La opción de contacto futuro no es válida",
@@ -43,12 +44,12 @@ const validateSubmission = (req, res, next) => {
   }
 
   req.body = {
-    nombreCompleto: nombreCompleto.trim(),
+    nombreCompleto: nombre.trim(),
     edad: edad === "" || edad === undefined || edad === null ? null : Number(edad),
-    barrioComuna: barrioComuna ? barrioComuna.trim() : null,
-    profesionActividad: profesionActividad ? profesionActividad.trim() : null,
-    contacto: contacto.trim(),
-    contactoFuturo,
+    barrioComuna: barrio ? barrio.trim() : null,
+    profesionActividad: profesion ? profesion.trim() : null,
+    contacto: contacto_info.trim(),
+    contactoFuturo: contacto === "pensar" ? "prefiero pensarlo" : contacto,
   };
 
   next();
