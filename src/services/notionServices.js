@@ -6,6 +6,9 @@ const createContactInNotion = async (data) => {
       database_id: process.env.NOTION_DATABASE_ID,
     },
     properties: {
+      ID: {
+        number: data.id || null,
+      },
       Nombre: {
         title: [
           {
