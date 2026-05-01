@@ -1,6 +1,12 @@
 const notion = require("../config/notion");
 
 const createContactInNotion = async (data) => {
+  const contacto = data.contacto || "";
+  const esEmail = contacto.includes("@");
+
+  const telefono = esEmail ? "-" : contacto;
+  const mail = esEmail ? contacto : "-";
+
   return await notion.pages.create({
     parent: {
       database_id: process.env.NOTION_DATABASE_ID,
@@ -39,11 +45,20 @@ const createContactInNotion = async (data) => {
           },
         ],
       },
-      Contacto: {
+      "Nro de telefono": {
         rich_text: [
           {
             text: {
-              content: data.contacto,
+              content: telefono,
+            },
+          },
+        ],
+      },
+      Mail: {
+        rich_text: [
+          {
+            text: {
+              content: mail,
             },
           },
         ],
