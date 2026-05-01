@@ -2,10 +2,19 @@ const notion = require("../config/notion");
 
 const createContactInNotion = async (data) => {
   const contacto = data.contacto || "";
-  const esEmail = contacto.includes("@");
 
-  const telefono = esEmail ? "-" : contacto;
-  const mail = esEmail ? contacto : "-";
+  let telefono = "-";
+  let mail = "-";
+
+  const emailMatch = contacto.match(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/i);
+  if (emailMatch) {
+    mail = emailMatch[0];
+  }
+
+  const telefonoMatch = contacto.match(/(\+?\d[\d\s-]{6,}\d)/);
+  if (telefonoMatch) {
+    telefono = telefonoMatch[0].replace(/[^\d+]/g, "");
+  }
 
   return await notion.pages.create({
     parent: {
