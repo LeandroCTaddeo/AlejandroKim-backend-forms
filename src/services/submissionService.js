@@ -3,14 +3,15 @@ const notionService = require("./notionServices");
 
 const createSubmission = async (data) => {
   const nuevaSubmission = await Submission.create(data);
-  try {
-    await notionService.createContactInNotion({
+
+  notionService
+    .createContactInNotion({
       ...data,
       id: nuevaSubmission.id,
+    })
+    .catch((error) => {
+      console.error("Error al enviar a Notion:", error.message);
     });
-  } catch (error) {
-    console.error("Error al enviar a Notion:", error.message);
-  }
 
   return nuevaSubmission;
 };
